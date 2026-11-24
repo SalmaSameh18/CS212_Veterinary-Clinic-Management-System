@@ -1,12 +1,7 @@
-
-#ifndef VISITSTACK_H
-#define VISITSTACK_H
-
-#include <iostream>
+#ifndef VISIT_STACK_H
+#define VISIT_STACK_H
 #include <string>
 using namespace std;
-
-const int MAX_PETS = 100;
 
 class VisitStack {
 private:
@@ -14,66 +9,33 @@ private:
     int topIndex;
 
 public:
-    VisitStack() : topIndex(-1) {}
 
-    bool isEmpty() const {
-        return topIndex == -1;
-    }
+    // Constructor
+    VisitStack();
 
-    bool isFull() const {
-        return topIndex == MAX_PETS - 1;
-    }
+    // Check if stack is empty
+    bool isEmpty() const;
 
-    int size() const {
-        return topIndex + 1;
-    }
+    // Check if stack is full
+    bool isFull() const;
 
-    bool push(const string& visitor) {
-        if (isFull()) {
-            cout << "Stack is full. Cannot push " << visitor << endl;
-            return false;
-        }
+    // Return number of elements
+    int size() const;
 
-        items[++topIndex] = visitor;
-        return true;
-    }
+    // Push a new visitor
+    bool push(const string& visitor);
 
-    bool pop(string& visitor) {
-        if (isEmpty()) {
-            cout << "Stack is empty. Cannot pop." << endl;
-            return false;
-        }
+    // Pop the top visitor
+    bool pop(string& visitor);
 
-        visitor = items[topIndex--];
-        return true;
-    }
+    // Return the top visitor without removing it
+    bool peek(string& visitor) const;
 
-    bool peek(string& visitor) const {
-        if (isEmpty()) {
-            cout << "Stack is empty. Cannot peek." << endl;
-            return false;
-        }
+    // Display all visitors
+    void display() const;
 
-        visitor = items[topIndex];
-        return true;
-    }
-
-    void display() const {
-        if (isEmpty()) {
-            cout << "No completed visits yet.\n";
-            return;
-        }
-
-        cout << "Recent visits (newest first):\n";
-
-        for (int i = topIndex; i >= 0; --i) {
-            cout << " - " << items[i] << "\n";
-        }
-    }
-
-    void clear() {
-        topIndex = -1;
-    }
+    // Clear the stack
+    void clear();
 };
 
 #endif
