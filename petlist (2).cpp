@@ -43,7 +43,20 @@ public:
         count = 0;
     }
 
-    bool insert(Pet p)
+ ~PetList()
+    {
+        Node* current = head;
+
+        while (current != nullptr)
+        {
+            Node* temp = current;
+            current = current->next;
+            delete temp;
+        }
+    }
+
+
+bool insert(Pet p)
     {
         if (search(p.id) != nullptr)
         {
@@ -72,18 +85,7 @@ public:
         return true;
     }
 
-    ~PetList()
-    {
-        Node* current = head;
-
-        while (current != nullptr)
-        {
-            Node* temp = current;
-            current = current->next;
-            delete temp;
-        }
-    }
-
+   
     bool deletePet(int id)
     {
         Node* current = head;
