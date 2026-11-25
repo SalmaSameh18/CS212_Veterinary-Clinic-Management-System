@@ -1,3 +1,20 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+const int MAX_PETS = 100;
+
+struct Pet {
+    int id;
+    string name;
+    string species;
+    int age;
+    string owner;
+    string phone;
+    string gender;
+    string medicalNote;
+};
+
 class PetBST {
 private:
 
@@ -290,3 +307,8 @@ public:
         count = 0;
     }
 };
+
+int main(){
+    
+    return 0;
+}
