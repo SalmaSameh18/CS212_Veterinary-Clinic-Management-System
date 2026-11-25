@@ -19,7 +19,6 @@ private:
 
 public:
     PetList();
-    ~PetList();
     bool insert(Pet p);
     bool deletePet(int id);
     Pet* search(int id);
