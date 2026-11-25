@@ -1,6 +1,8 @@
+
 #include <iostream>
 using namespace std;
-const int MAX_PET = 100;
+
+const int MAX_PETS = 100;
 
 class PetQueue {
 
@@ -11,7 +13,7 @@ private:
         int priority;
     };
 
-    Pet items[MAX_PET];
+    Pet items[MAX_PETS];
     int count;
 
 public:
@@ -26,7 +28,7 @@ public:
 
     // Check if queue is full
     bool isFull() const {
-        return count == MAX_ITEMS;
+        return count == MAX_PETS;
     }
 
     // Return number of pets
