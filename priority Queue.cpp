@@ -1,6 +1,6 @@
 #include <iostream>
 using namespace std;
-const int MAX_ITEMS = 100;
+const int MAX_PET = 100;
 
 class PetQueue {
 
@@ -11,7 +11,7 @@ private:
         int priority;
     };
 
-    Pet items[MAX_ITEMS];
+    Pet items[MAX_PET];
     int count;
 
 public:
