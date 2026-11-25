@@ -43,7 +43,18 @@ public:
         head = nullptr;
         count = 0;
     }
+    //destructor
+~PetList()
+{
+Node* current = head;
 
+while (current != nullptr)
+{
+    Node* temp = current;
+    current = current->next;
+    delete temp;
+}
+}
     // 1. Insert
     bool insert(Pet p)
     {
