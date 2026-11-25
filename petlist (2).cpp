@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 using namespace std;
-
+const int MAX_PETS = 100;
 
 struct Pet {
     int id;
