@@ -55,6 +55,10 @@ public:
         }
     }
 
+
+
+
+
 int copyToArray(Pet arr[], int capacity) const
 {
     int i = 0;
@@ -69,6 +73,12 @@ int copyToArray(Pet arr[], int capacity) const
 
     return i;
 }
+
+
+
+
+
+
 
 bool insert(Pet p)
     {
