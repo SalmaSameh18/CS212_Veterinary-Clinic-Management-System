@@ -1,3 +1,4 @@
+
 #ifndef PETLIST_H
 #define PETLIST_H
 
@@ -22,11 +23,15 @@ public:
 
     PetList();
     ~PetList();
+
     int copyToArray(Pet arr[], int capacity) const;
-    bool insert(const Pet& p);
+
+    bool insert(Pet p);
     bool deletePet(int id);
     Pet* search(int id);
+
     void display() const;
+
     bool isEmpty() const;
     int size() const;
 };
