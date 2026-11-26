@@ -9,10 +9,6 @@ using namespace std;
 
 const int MAX_PETS = 100;
 
-// IMPORTANT:
-// The files that define Pet, PetList, PetBST, PetQueue, and VisitStack
-// must be included before this header is included from main.cpp.
-
 class ClinicOperations
 {
 private:
