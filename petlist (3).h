@@ -6,6 +6,7 @@
 class PetList
 {
 private:
+
     struct Node
     {
         Pet data;
@@ -18,9 +19,11 @@ private:
     int count;
 
 public:
+
     PetList();
     ~PetList();
-    bool insert(Pet p);
+    int copyToArray(Pet arr[], int capacity) const;
+    bool insert(const Pet& p);
     bool deletePet(int id);
     Pet* search(int id);
     void display() const;
