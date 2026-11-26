@@ -55,6 +55,20 @@ public:
         }
     }
 
+int copyToArray(Pet arr[], int capacity) const
+{
+    int i = 0;
+    Node* current = head;
+
+    while (current != nullptr && i < capacity)
+    {
+        arr[i] = current->data;
+        current = current->next;
+        i++;
+    }
+
+    return i;
+}
 
 bool insert(Pet p)
     {
@@ -171,3 +185,7 @@ bool insert(Pet p)
         return count;
     }
 };
+
+int main(){
+    return 0;
+}
