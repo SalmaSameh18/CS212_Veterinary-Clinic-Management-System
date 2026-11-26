@@ -1,38 +1,55 @@
-#ifndef PETLIST_H
-#define PETLIST_H
+#ifndef PETQUEUE_H
+#define PETQUEUE_H
 
-#include "Pet.h"
+const int MAX_PETS = 100;
 
-class PetList
-{
+class PetQueue {
+
 private:
 
-    struct Node
-    {
-        Pet data;
-        Node* next;
-
-        Node(const Pet& p);
+    struct Pet {
+        int id;
+        int priority;
     };
 
-    Node* head;
+    Pet items[MAX_PETS];
     int count;
 
 public:
 
-    PetList();
-    ~PetList();
+    // Constructor
+    PetQueue();
 
-    int copyToArray(Pet arr[], int capacity) const;
+    // Check if queue is empty
+    bool isEmpty() const;
 
-    bool insert(Pet p);
-    bool deletePet(int id);
-    Pet* search(int id);
+    // Check if queue is full
+    bool isFull() const;
 
+    // Return number of pets
+    int size() const;
+
+    // Add pet according to priority
+    bool enqueue(int id, int priority = 0);
+
+    // Remove pet from front
+    bool dequeue(int& id);
+
+    // Get front pet
+    bool front(int& id) const;
+
+    // Get rear pet
+    bool rear(int& id) const;
+
+    // Search for a pet by ID
+    bool contains(int id) const;
+
+    // Remove pet by ID
+    bool removeById(int id);
+
+    // Display all pets
     void display() const;
 
-    bool isEmpty() const;
-    int size() const;
-};
+}; // End of class
 
 #endif
