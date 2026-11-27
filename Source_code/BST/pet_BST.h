@@ -1,7 +1,7 @@
 #ifndef PET_BST_H
 #define PET_BST_H
 
-#include "Pet.h"
+#include "../Main/Pet.h"
 
 using namespace std;
 
