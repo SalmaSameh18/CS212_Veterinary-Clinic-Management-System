@@ -3,11 +3,13 @@
 
 #include <string>
 
+using namespace std;
+
 class VisitStack
 {
 private:
     static const int MAX_VISITS = 100;
-    std::string items[MAX_VISITS];
+    string items[MAX_VISITS];
     int topIndex;
 
 public:
@@ -17,9 +19,9 @@ public:
     bool isFull() const;
     int size() const;
 
-    bool push(const std::string& visitor);
-    bool pop(std::string& visitor);
-    bool peek(std::string& visitor) const;
+    bool push(const string& visitor);
+    bool pop(string& visitor);
+    bool peek(string& visitor) const;
 
     void display() const;
     void clear();
