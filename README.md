@@ -148,8 +148,8 @@ g++ -std=c++17 -Wall -Wextra pet_main.cpp Pet_List.cpp Pet_BST.cpp Pet_Queue.cpp
 
 ## 7. Team Members & Contributions
 
-* **Registered Practical Section:** `[Enter Section Number]`
-* **Team ID / Number:** `[Enter Team Number]`
+* **Registered Practical Section:** `[7182]`
+* **Team ID / Number:** `[17]`
 
 | # | Student Full Name | University ID | Assigned Role & Deliverables |
 | :--- | :--- | :--- | :--- |
