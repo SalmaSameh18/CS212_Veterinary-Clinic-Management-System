@@ -1,7 +1,7 @@
 #ifndef PET_LIST_H
 #define PET_LIST_H
 
-#include "Pet.h"
+#include "../Main/Pet.h"
 
 using namespace std;
 
