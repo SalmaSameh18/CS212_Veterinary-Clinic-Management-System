@@ -1,11 +1,14 @@
-#ifndef PETLIST_H
-#define PETLIST_H
+#ifndef PET_LIST_H
+#define PET_LIST_H
 
 #include "Pet.h"
+
+using namespace std;
 
 class PetList
 {
 private:
+    static const int MAX_LIST_SIZE = 100;
 
     struct Node
     {
@@ -19,14 +22,15 @@ private:
     int count;
 
 public:
-
     PetList();
     ~PetList();
 
+    // Copies current records into a caller-provided array (for sorting/searching)
     int copyToArray(Pet arr[], int capacity) const;
 
-    bool insert(Pet p);
+    bool insert(const Pet& p);
     bool deletePet(int id);
+    bool updatePet(int id, const Pet& updatedPet);
     Pet* search(int id);
 
     void display() const;
@@ -35,4 +39,4 @@ public:
     int size() const;
 };
 
-#endif
+#endif // PET_LIST_H
