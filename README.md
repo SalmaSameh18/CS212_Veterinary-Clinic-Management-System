@@ -1,284 +1,160 @@
-# CS212 – Veterinary Clinic Management System
+# CS212 – Data Structures Course Project
+## Idea #17: Veterinary Clinic Management System
 
-A console-based Veterinary Clinic Management System developed in C++ using Object-Oriented Programming and manually implemented Data Structures to manage pet registrations, clinic visits, waiting lists, and visit history.
-
----
-
-## 1. Project Overview
-
-The **Veterinary Clinic Management System** is a C++ application designed to simulate the basic operations of a veterinary clinic.
-
-The system provides an organized way to register pets, store their information, search for pet records, manage the clinic's waiting queue, process visits, and track recently completed visits.
-
-The project demonstrates the practical application of fundamental Data Structures and algorithms, integrating multiple structures to perform real-world clinic management operations efficiently.
+* **University:** Misr University for Science & Technology (MUST)
+* **College:** College of Information Technology
+* **Course:** CS212 – Data Structures (Practical Part)
+* **Semester:** Fall 2026–2027
+* **Language & Standard:** C++ (C++17), 100% Manual Data Structure Implementation (Zero STL Containers)
 
 ---
 
-## 2. System Features
+## 1. Project Overview & Scope
 
-### Pet Management
-- Register new pets with unique IDs.
-- Store pet information, including name, species, age, gender, owner details, phone number, and medical notes.
-- Prevent duplicate Pet IDs.
-- Validate user inputs and required information.
-- Delete existing pet records.
-- Search for pets by their unique ID.
-- Display all registered pets.
+The **Veterinary Clinic Management System** is an integrated, menu-driven C++ console application designed to streamline daily veterinary clinic operations. It manages pet medical records, coordinates patient check-ins using urgency-based priority queuing, tracks completed consultations in a LIFO visit log, and provides fast record lookup and alphabetical sorting.
 
-### Clinic Operations
-- Check in registered pets for examination.
-- Prevent a pet from being added to the waiting queue more than once.
-- Organize waiting pets according to priority.
-- Process the next pet for examination.
-- Record completed visits.
-- Display recent visit history.
-- Sort registered pets alphabetically by name.
+### Integrated End-to-End Clinic Workflow
+1. **Registration:** A new pet is validated (positive unique ID, non-empty required fields, non-negative age) and inserted into the **Singly Linked List (`PetList`)**, with its key mirrored into the **Binary Search Tree (`PetBST`)** for fast $O(\log n)$ indexing.
+2. **Triage & Check-In:** Registered pets are checked into the waiting room via a **Priority Queue (`PetQueue`)** based on medical urgency (`0 = Normal`, `1 = Urgent`, `2 = Emergency`), preserving FIFO order among equal priorities.
+3. **Consultation & Completion:** The highest-priority pet is dequeued, treated, and has its `medicalNote` updated consistently across both `PetList` and `PetBST`. A timestamped/formatted summary of the visit is then pushed onto the **Visit History Stack (`VisitStack`)**.
+4. **Review & Undo:** Staff can inspect or pop the most recent visit log from `VisitStack`, search pets by ID (`PetBST`) or Name (`Linear Search`), sort pets alphabetically (`Insertion Sort`), and update or delete records across all synchronized structures.
 
 ---
 
-## 3. Data Structures & Algorithms
+## 2. Repository & Source File Structure
 
-The project implements its data structures manually without relying on STL containers such as `list`, `queue`, `stack`, or `map` for the core implementations.
-
-### 1. Linked List
-
-**Purpose:** Stores and manages pet records.
-
-**Implementation:**
-- Singly Linked List.
-- Each node contains a pet record and a pointer to the next node.
-- Supports insertion, deletion, searching, traversal, and displaying pet records.
-- Maintains the number of stored records.
-- Uses a destructor to release dynamically allocated nodes.
-
-**Operations:**
-- `insert()`
-- `deletePet()`
-- `search()`
-- `display()`
-- `isEmpty()`
-- `size()`
-- `copyToArray()`
-
----
-
-### 2. Binary Search Tree (BST)
-
-**Purpose:** Organizes pet records by their unique IDs to support searching and management.
-
-**Implementation:**
-- Each node stores a pet record.
-- Smaller IDs are stored in the left subtree.
-- Larger IDs are stored in the right subtree.
-- Insertion, searching, and deletion are implemented recursively.
-- Duplicate IDs are rejected.
-- Deletion handles all three cases: leaf node, one child, and two children.
-- The inorder traversal displays pets in ascending order of ID.
-- The preorder traversal displays the tree structure order.
-- A destructor clears the dynamically allocated tree nodes.
-
-**Operations:**
-- `insert()`
-- `search()`
-- `deletePet()`
-- `updatePet()`
-- `inorder()`
-- `preorder()`
-- `clear()`
-- `isEmpty()`
-- `size()`
-
----
-
-### 3. Priority Queue
-
-**Purpose:** Organizes pets waiting for examination according to their priority.
-
-**Implementation:**
-- Implemented using a fixed-size array.
-- Maximum capacity: 100 pets.
-- Higher-priority pets are placed before lower-priority pets.
-- Pets with equal priority maintain their insertion order.
-- The front element represents the next pet to be examined.
-
-**Operations:**
-- `enqueue()`
-- `dequeue()`
-- `front()`
-- `rear()`
-- `contains()`
-- `removeById()`
-- `display()`
-- `isEmpty()`
-- `isFull()`
-- `size()`
-
----
-
-### 4. Stack
-
-**Purpose:** Stores completed clinic visits and provides access to recent visit history.
-
-**Implementation:**
-- Implemented using a fixed-size array.
-- Follows the LIFO (Last In, First Out) principle.
-- The most recently completed visit is displayed first.
-- Maximum capacity: 100 visit records.
-
-**Operations:**
-- `push()`
-- `pop()`
-- `peek()`
-- `display()`
-- `clear()`
-- `isEmpty()`
-- `isFull()`
-- `size()`
-
----
-
-### 5. Sorting Algorithm – Bubble Sort
-
-**Purpose:** Sorts registered pets alphabetically by name.
-
-**Implementation:**
-- Copies pet records from the Linked List into an array.
-- Uses the Bubble Sort algorithm to sort the copied records.
-- Compares adjacent pet names and swaps them when necessary.
-- Displays the sorted results without changing the original Linked List order.
-
-**Time Complexity:** O(n²)
-
----
-
-## 4. System Architecture
-
-The system is organized into separate classes, each responsible for a specific data structure or operation.
-
-| Class | Responsibility |
-|---|---|
-| `Pet` | Stores pet information |
-| `PetList` | Manages pet records using a Linked List |
-| `PetBST` | Organizes and searches pet records using a Binary Search Tree |
-| `PetQueue` | Manages the waiting list using a Priority Queue |
-| `VisitStack` | Stores completed visits using a Stack |
-| `ClinicOperations` | Coordinates registration, check-in, visit completion, validation, and sorting |
-
-The `ClinicOperations` class connects the different data structures to ensure that clinic operations work together.
-
----
-
-## 5. Technologies Used
-
-- **Programming Language:** C++
-- **Programming Concepts:** Object-Oriented Programming (OOP)
-- **Data Structures:** Linked List, Binary Search Tree, Priority Queue, Stack
-- **Algorithms:** Recursive Searching, Recursive Insertion, Recursive Deletion, Bubble Sort
-- **Memory Management:** Dynamic Memory Allocation and Destructors
-- **Development Environment:** Visual Studio / Visual Studio Code
-- **Version Control:** Git & GitHub
-
----
-
-## 6. How to Run the Project
-
-### Requirements
-
-- A C++ compiler such as GCC or MinGW.
-- Visual Studio or Visual Studio Code.
-
-### Steps
-
-1. Clone or download the repository.
-2. Open the project folder in your development environment.
-3. Make sure a C++ compiler is installed and configured.
-4. Compile the source files.
-5. Run the generated executable.
-
-### Compilation
-
-Using GCC:
-
-```bash
-g++ *.cpp -o VeterinaryClinic
-```
-
-### Run on Windows
-
-```bash
-VeterinaryClinic.exe
-```
-
-### Run on Linux / macOS
-
-```bash
-./VeterinaryClinic
-```
-
----
-
-## 7. Program Menu
-
-The application provides the following interactive menu:
+Recommended repository layout per CS212 submission guidelines:
 
 ```text
-====================================
-       VETERINARY CLINIC SYSTEM
-====================================
+CS212_Veterinary_Clinic/
+├── README.md
+├── Source_Code/
+│   ├── Pet.h
+│   ├── pet_BST.h
+│   ├── Pet_BST.cpp
+│   ├── Pet_List.h
+│   ├── Pet_List.cpp
+│   ├── Pet_Queue.h
+│   ├── Pet_Queue.cpp
+│   ├── Pet_Stack.h
+│   ├── Pet_Stack.cpp
+│   ├── Pet_Clinic_Operations.h
+│   ├── Pet_Clinic_Operation.cpp
+│   ├── pet_main.h
+│   └── pet_main.cpp
+├── Report/
+│   └── project_report.pdf
+├── Screenshots/
+└── Tests/
+```
 
-1. Register New Pet
-2. Search Pet By ID
-3. Delete Pet
-4. Display All Pets
-5. Check In Pet
-6. Complete Visit
-7. Display Recent Visit History
-8. Sort Pets By Name
-0. Exit
+### Source Files Breakdown
 
-====================================
-Enter your choice:
+| File(s) | Module / Class | Responsibility |
+| :--- | :--- | :--- |
+| `Pet.h` | `struct Pet` | Core data model (`id`, `name`, `species`, `age`, `gender`, `owner`, `phone`, `medicalNote`) with default constructor |
+| `Pet_List.h`, `Pet_List.cpp` | `PetList` | Dynamic Singly Linked List storing complete pet medical records |
+| `pet_BST.h`, `Pet_BST.cpp` | `PetBST` | Binary Search Tree keyed by unique `Pet::id` for fast search and sorted traversal |
+| `Pet_Queue.h`, `Pet_Queue.cpp` | `PetQueue` | Array-based Priority Queue managing waiting room patients (`MAX_QUEUE_SIZE = 100`) |
+| `Pet_Stack.h`, `Pet_Stack.cpp` | `VisitStack` | Array-based LIFO Stack tracking recent completed visits (`MAX_VISITS = 100`) |
+| `Pet_Clinic_Operations.h`, `Pet_Clinic_Operation.cpp` | `ClinicOperations` | Controller class handling input validation, cross-structure synchronization, searching, sorting, and the interactive menu |
+| `pet_main.h`, `pet_main.cpp` | `main()` | Aggregates module headers and launches `ClinicOperations::runMenu()` |
+
+---
+
+## 3. Compliance with CS212 Technical Specifications (R1–R10)
+
+| Req | Requirement | Implementation Details |
+| :--- | :--- | :--- |
+| **R1** | **Original C++ Implementation** | All data structures (`PetList`, `PetBST`, `PetQueue`, `VisitStack`) are built manually using pointers, dynamic memory (`new`/`delete`), and fixed-capacity arrays—without `std::list`, `std::stack`, `std::queue`, or `std::map`. |
+| **R2** | **Stack (`VisitStack`)** | Implements `push`, `pop`, `peek`, `isEmpty`, `isFull`, `size`, `display`, and `clear` to maintain a LIFO log of completed visits and support popping/undoing the latest visit log. |
+| **R3** | **Queue (`PetQueue`)** | Implements `enqueue`, `dequeue`, `front`, `rear`, `contains`, `removeById`, `isEmpty`, `isFull`, `size`, and `display` for urgency-aware waiting room management (ties follow FIFO). |
+| **R4** | **Linked List (`PetList`)** | Implements node-based `insert`, `deletePet`, `updatePet`, `search`, `display`, `copyToArray`, `isEmpty`, `size`, and destructor cleanup (`~PetList`). |
+| **R5** | **Binary Search Tree (`PetBST`)** | Keyed by unique `Pet::id`; supports `insert` (rejecting duplicate IDs), `deletePet` (0, 1, and 2-child cases via inorder successor), `search`, `updatePet`, `inorder`, `preorder`, and `clear`. |
+| **R6** | **Searching & Sorting** | **BST Search** for unique ID lookup; **Linear Search** for non-unique pet names; **Insertion Sort** for alphabetical ordering by pet name on a copied array. |
+| **R7** | **Usable Console Application** | Repeatable 11-option menu (options `1–10` plus safe `0` Exit) with formatted outputs and full CRUD support. |
+| **R8** | **Input & State Validation** | Guards against non-integer menu/numeric inputs (`cin.fail()` recovery), non-positive IDs, negative ages, empty required strings, duplicate IDs, duplicate queue check-ins, empty-structure operations, and full-capacity limits (`MAX = 100`). |
+| **R9** | **Integrated Behavior** | Registering, updating, treating (`completeVisit`), and deleting a pet automatically synchronizes state across `PetList`, `PetBST`, `PetQueue`, and `VisitStack`. |
+| **R10** | **Complexity & Limitations** | Includes Big-O analysis below and explicitly documents array-capacity and tree-balance limitations. |
+
+---
+
+## 4. Searching, Sorting & Big-O Complexity Analysis
+
+### Algorithm Justifications
+* **BST Search (by Pet ID):** Chosen because `Pet::id` is a unique primary key, enabling $O(\log n)$ average lookup time instead of scanning all records sequentially.
+* **Linear Search (by Pet Name):** Chosen because multiple pets can share the same name and names are not the BST key; inspects all copied records in $O(n)$ time to return every matching pet.
+* **Insertion Sort (by Pet Name):** Chosen because clinic datasets are bounded (`MAX_CLINIC_PETS = 100`), it sorts in-place on a copied array with $O(1)$ auxiliary space, runs in $O(n)$ on nearly-sorted data, and is **stable** (preserving relative registration order for pets with identical names).
+
+### Time & Space Complexity Summary
+
+| Data Structure / Algorithm | Operation | Average Time | Worst-Case Time | Space Complexity |
+| :--- | :--- | :--- | :--- | :--- |
+| **`PetList` (Singly Linked List)** | `insert` (at tail) | $O(n)$ | $O(n)$ | $O(1)$ per node |
+| | `search` / `deletePet` / `updatePet` | $O(n)$ | $O(n)$ | $O(1)$ |
+| | `display` / `copyToArray` | $O(n)$ | $O(n)$ | $O(1)$ |
+| **`PetBST` (Binary Search Tree)** | `insert` / `search` / `deletePet` / `updatePet` | $O(\log n)$ | $O(n)$ *(skewed)* | $O(h)$ recursion stack |
+| | `inorder` / `preorder` / `clear` | $O(n)$ | $O(n)$ | $O(h)$ recursion stack |
+| **`PetQueue` (Priority Queue)** | `enqueue` (sorted insertion) | $O(n)$ | $O(n)$ | $O(1)$ |
+| | `dequeue` (shift elements) | $O(n)$ | $O(n)$ | $O(1)$ |
+| | `front` / `rear` / `isEmpty` / `size` | $O(1)$ | $O(1)$ | $O(1)$ |
+| **`VisitStack` (Array Stack)** | `push` / `pop` / `peek` / `isEmpty` / `size` | $O(1)$ | $O(1)$ | $O(1)$ |
+| **Linear Search (by Name)** | `searchPetByName` | $O(n)$ | $O(n)$ | $O(n)$ *(temp array)* |
+| **Insertion Sort (by Name)** | `sortPetsByName` | $O(n^2)$ | $O(n^2)$ ($O(n)$ best) | $O(n)$ *(temp array)* |
+
+### Known System Limitations
+1. **Fixed Capacity Bounds:** `PetList`, `PetQueue`, `VisitStack`, and temporary search/sort buffers are capped at `100` records (`MAX = 100`).
+2. **Unbalanced BST Worst Case:** `PetBST` is a standard Binary Search Tree rather than a self-balancing AVL tree; inserting strictly sorted IDs degrades lookup time from $O(\log n)$ to $O(n)$.
+3. **In-Memory Storage Only:** Records exist in RAM during runtime and are not persisted to disk upon exit.
+
+---
+
+## 5. How to Compile & Run
+
+Open a terminal inside the directory containing all `.h` and `.cpp` files (e.g., `Source_Code/`):
+
+### Windows (PowerShell / CMD with `g++`)
+```powershell
+g++ -std=c++17 -Wall -Wextra pet_main.cpp Pet_List.cpp Pet_BST.cpp Pet_Queue.cpp Pet_Stack.cpp Pet_Clinic_Operation.cpp -o clinic_app.exe
+.\clinic_app.exe
+```
+
+### Linux / macOS / Git Bash
+```bash
+g++ -std=c++17 -Wall -Wextra pet_main.cpp Pet_List.cpp Pet_BST.cpp Pet_Queue.cpp Pet_Stack.cpp Pet_Clinic_Operation.cpp -o clinic_app
+./clinic_app
 ```
 
 ---
 
-## 8. Team Members & Responsibilities
+## 6. Interactive Menu Options
 
-| Team Member | Team Member id | Responsibility |
-|---|---|---|
-| Malak Sherif Abdelaziz | 200076464 | Linked List Implementation |
-| Salma Sameh Ahmed | 200067927 | Binary Search Tree Implementation |
-| Dalia Mahmoud Muhyi | 200069159 |Queue Implementation |
-| Nagwa Hossam Khalil | 200068520 |Stack Implementation |
-| Arwa Tamer Mohamed | 200067685 |Clinic Operations, Searching, Sorting, Validation & int main |
-
----
-
-## 9. Course Information
-
-**Course:** CS212 – Data Structures  
-**Project:** Veterinary Clinic Management System  
-**Academic Year:** 2026–2027  
-**Semester:** Fall
+```text
+========== VETERINARY CLINIC MENU ==========
+1. Register New Pet
+2. Check In Pet to Waiting Queue (Priority)
+3. Complete Next Visit (Queue -> Update Record -> Stack)
+4. Undo / Pop Last Visit Log (Stack)
+5. Search Pet by ID (BST)
+6. Search Pet by Name (Linear Search)
+7. Sort & Display Pets by Name (Insertion Sort)
+8. Update Pet Record
+9. Delete Pet Record
+10. Display Full System Overview
+0. Exit
+```
 
 ---
 
-## 10. Project Objectives
+## 7. Team Members & Contributions
 
-The main objectives of this project are:
+* **Registered Practical Section:** `[Enter Section Number]`
+* **Team ID / Number:** `[Enter Team Number]`
 
-- Apply Data Structures concepts to a practical real-world problem.
-- Understand how different data structures can work together in one system.
-- Implement data structures manually using C++.
-- Practice Object-Oriented Programming.
-- Improve problem-solving and algorithmic thinking.
-- Apply searching, sorting, insertion, deletion, traversal, and memory management techniques.
-- Develop teamwork and collaborative programming skills using GitHub.
-
----
-
-## 11. Conclusion
-
-The Veterinary Clinic Management System demonstrates how fundamental Data Structures can be integrated into a practical C++ application.
-
-By using a Linked List for pet records, a Binary Search Tree for ID-based management, a Priority Queue for waiting pets, and a Stack for visit history, the project provides an organized solution for managing the essential operations of a veterinary clinic while demonstrating the practical importance of Data Structures and algorithms.
+| # | Student Full Name | University ID | Assigned Role & Deliverables |
+| :--- | :--- | :--- | :--- |
+| 1 | Salma Sameh Ahmed | 200067927 | `PetBST` implementation (`pet_BST.h`, `Pet_BST.cpp`) & ID search integration |
+| 2 | Malak Sherif Abdelaziz | 200076464 | `PetList` implementation (`Pet_List.h`, `Pet_List.cpp`) & `Pet.h` data model |
+| 3 | Dalia Mahmoud Muhyi | 200069159 | `PetQueue` implementation (`Pet_Queue.h`, `Pet_Queue.cpp`) & triage workflow |
+| 4 | Nagwa Hossam Khalil | 200068520 | `VisitStack` implementation (`Pet_Stack.h`, `Pet_Stack.cpp`) & visit logging |
+| 5 | Arwa Tamer Mohamed | 200067685 | `ClinicOperations` (`Pet_Clinic_Operations.h`, `Pet_Clinic_Operation.cpp`), validation, sorting & integration |
