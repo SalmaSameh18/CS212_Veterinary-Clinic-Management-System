@@ -24,141 +24,31 @@ The submitted source was successfully compiled with `g++ -std=c++11`.
 
 ## 2. Test Cases
 
-  -----------------------------------------------------------------------------------------------------------------------------
-  Test ID     Feature       Test input /  Expected result                  Actual result                            Status
-                            action                                                                                  
-  ----------- ------------- ------------- -------------------------------- ---------------------------------------- -----------
-  TC-01       Register pet  Register ID   Pet is added to the Linked List  Pet registered successfully!             PASS
-                            `1`, Name and BST; success message appears                                          
-                            Name `Joy` successfully  ,                                                                 
-                            Species `Dog`,
-                            Age  `1`,
-                            Owner  `Jake`, 
-                            Phone  `01000787878`,                                                                          
-                            Gender `Male`,                                                                          
-                            and valid 
-                            remaining                                                                               
-                            details                                                                                 
-
-  TC-02       Register      Register ID   Second pet is registered         Pet registered successfully!             PASS
-              another pet   `2`, 
-                            Name `Kati`   successfully,                                                                
-                            Species `Cat`, 
-                            Age `2`,
-                            Owner `Lina`,
-                            and                                                                             
-                            valid                                                                                   
-                            remaining                                                                               
-                            details                                                                                 
-
-  TC-03       Register      Register ID   Third pet is registered          Pet registered successfully!             PASS
-              third pet     `3`, 
-                            Name `Meme`  successfully,                                             
-                            Species `Dog`,
-                            Age `2`,
-                            Owner  `Jessy`,
-                            and                                                                            
-                            valid                                                                                   
-                            remaining                                                                               
-                            details                                                                                 
-
-  TC-04       Search        Select `2`,   The pet's stored information is  Pet Found!; Joy's ID, name, species,     PASS
-              existing pet  enter ID      displayed                        age, and owner were displayed            
-                            `1`                                                                                     
-
-  TC-05       Search        Select `2`,   `Pet not found.` is displayed    Not executed yet                         PENDING
-              missing pet   enter an ID                                                                             
-                            that does not                                                                           
-                            exist,                                                                                  
-                            e.g. `999`                                                                              
-
-  TC-06       Duplicate ID  Try to        Registration is rejected and     Not executed yet                         PENDING
-                            register      duplicate-ID message appears                                              
-                            another pet                                                                             
-                            using ID                                                                                
-                            `1`                                                                                     
-
-  TC-07       Invalid ID    Try           Registration is rejected because Not executed yet                         PENDING
-                            registering a the ID must be positive                                                   
-                            pet with ID                                                                             
-                            `0` or a                                                                                
-                            negative ID                                                                             
-
-  TC-08       Invalid age   Try           Registration is rejected with    Not executed yet                         PENDING
-                            registering a `Invalid age.`                                                            
-                            pet with a                                                                              
-                            negative age                                                                            
-
-  TC-09       Empty pet     Try           Registration is rejected with    Not executed yet                         PENDING
-              name          registering a `Pet name cannot be empty.`                                               
-                            pet with an                                                                             
-                            empty name                                                                              
-
-  TC-10       Check in      Select `5`,   Pet is added to the waiting      Pet checked in successfully!             PASS
-              existing pet  enter ID      queue                                                                     
-                            `3`                                                                                     
-
-  TC-11       Check in same Check in ID   Duplicate queue entry is         Not executed yet                         PENDING
-              pet twice     `3` again     rejected                                                                  
-                            before                                                                                  
-                            completing                                                                              
-                            its visit                                                                               
-
-  TC-12       Check in      Select `5`,   `Pet not found.` is displayed    Not executed yet                         PENDING
-              missing pet   enter ID      and queue remains unchanged                                               
-                            `999`                                                                                   
-
-  TC-13       Complete      Select `6`    Pet is removed from the queue    Visit completed successfully!; Meme (ID  PASS
-              visit         while ID      and a visit record is pushed     3) was shown                             
-                            `3` is        onto the Stack                                                            
-                            waiting                                                                                 
-
-  TC-14       Display visit Select `7`    The latest completed visit is    `ID: 3 | Name: Meme` was displayed       PASS
-              history       after         displayed first                                                           
-                            completing                                                                              
-                            TC-13                                                                                   
-
-  TC-15       Sort pets by  Register Joy  Pets are displayed               Joy (1) appeared before Meme (3)         PASS
-              name          and Meme,     alphabetically by name                                                    
-                            then select                                                                             
-                            `8`                                                                                     
-
-  TC-16       Delete        Select `3`,   Pet is deleted from the Linked   Pet deleted successfully.                  PASS
-              existing pet  enter ID      List and BST                                                              
-                            `2`                                                                                     
-
-  TC-17       Delete        Select `3`,   `Pet not found.` is displayed    Not executed yet                         PENDING
-              missing pet   enter an ID                                                                             
-                            that does not                                                                           
-                            exist                                                                                   
-
-  TC-18       Display all   Select `4`    Only remaining pet records are   Joy (1) and Meme (3) were displayed;     PASS
-              pets          after         displayed                        Kati (2) was absent                      
-                            deleting ID                                                                             
-                            `2`                                                                                     
-
-  TC-19       Empty waiting Select `6`    `No pets waiting for a visit.`   Not executed yet                         PENDING
-              queue         when no pets  is displayed                                                              
-                            are waiting                                                                             
-
-  TC-20       Empty visit   Select `7`    `No completed visits yet.` is    Not executed yet                         PENDING
-              history       before        displayed                                                                 
-                            completing                                                                              
-                            any visit                                                                               
-
-  TC-21       Invalid menu  Enter a menu  Invalid-choice message appears   Not executed yet                         PENDING
-              choice        number that   and menu is shown again                                                   
-                            is not                                                                                  
-                            listed,                                                                                 
-                            e.g. `9`                                                                                
-
-  TC-22       Non-numeric   Enter text    Invalid-input message appears;   Not executed yet                         PENDING
-              menu input    instead of a  program continues                                                         
-                            menu number                                                                             
-
-  TC-23       Exit          Select `0`    Program exits safely and         `Thank you for using the system!`        PASS
-                                          displays a thank-you message                                              
-  -----------------------------------------------------------------------------------------------------------------------------
+| Test ID | Feature | Test input / action | Expected result | Actual result | Status |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| TC-01 | Register pet | Register ID `1`, Name `Joy`, Species `Dog`, Age `1`, Owner `Jake`, Phone `01000787878`, Gender `Male`, and valid remaining details | Pet is added to the Linked List and BST; success message appears | Pet registered successfully! | PASS |
+| TC-02 | Register another pet | Register ID `2`, Name `Kati`, Species `Cat`, Age `2`, Owner `Lina`, and valid remaining details | Second pet is registered successfully | Pet registered successfully! | PASS |
+| TC-03 | Register third pet | Register ID `3`, Name `Meme`, Species `Dog`, Age `2`, Owner `Jessy`, and valid remaining details | Third pet is registered successfully | Pet registered successfully! | PASS |
+| TC-04 | Search existing pet | Select `2`, enter ID `1` | The pet's stored information is displayed | Pet Found!; Joy's ID, name, species, age, and owner were displayed | PASS |
+| TC-05 | Search missing pet | Select `2`, enter an ID that does not exist, e.g. `999` | `Pet not found.` is displayed | Not executed yet | PENDING |
+| TC-06 | Duplicate ID | Try to register another pet using ID `1` | Registration is rejected and duplicate-ID message appears | Not executed yet | PENDING |
+| TC-07 | Invalid ID | Try registering a pet with ID `0` or a negative ID | Registration is rejected because the ID must be positive | Not executed yet | PENDING |
+| TC-08 | Invalid age | Try registering a pet with a negative age | Registration is rejected with `Invalid age.` | Not executed yet | PENDING |
+| TC-09 | Empty pet name | Try registering a pet with an empty name | Registration is rejected with `Pet name cannot be empty.` | Not executed yet | PENDING |
+| TC-10 | Check in existing pet | Select `5`, enter ID `3` | Pet is added to the waiting queue | Pet checked in successfully! | PASS |
+| TC-11 | Check in same pet twice | Check in ID `3` again before completing its visit | Duplicate queue entry is rejected | Not executed yet | PENDING |
+| TC-12 | Check in missing pet | Select `5`, enter ID `999` | `Pet not found.` is displayed and queue remains unchanged | Not executed yet | PENDING |
+| TC-13 | Complete visit | Select `6` while ID `3` is waiting | Pet is removed from the queue and a visit record is pushed onto the Stack | Visit completed successfully!; Meme (ID 3) was shown | PASS |
+| TC-14 | Display visit history | Select `7` after completing TC-13 | The latest completed visit is displayed first | `ID: 3 | Name: Meme` was displayed | PASS |
+| TC-15 | Sort pets by name | Register Joy and Meme, then select `8` | Pets are displayed alphabetically by name | Joy (1) appeared before Meme (3) | PASS |
+| TC-16 | Delete existing pet | Select `3`, enter ID `2` | Pet is deleted from the Linked List and BST | Pet deleted successfully. | PASS |
+| TC-17 | Delete missing pet | Select `3`, enter an ID that does not exist | `Pet not found.` is displayed | Not executed yet | PENDING |
+| TC-18 | Display all pets | Select `4` after deleting ID `2` | Only remaining pet records are displayed | Joy (1) and Meme (3) were displayed; Kati (2) was absent | PASS |
+| TC-19 | Empty waiting queue | Select `6` when no pets are waiting | `No pets waiting for a visit.` is displayed | Not executed yet | PENDING |
+| TC-20 | Empty visit history | Select `7` before completing any visit | `No completed visits yet.` is displayed | Not executed yet | PENDING |
+| TC-21 | Invalid menu choice | Enter a menu number that is not listed, e.g. `9` | Invalid-choice message appears and menu is shown again | Not executed yet | PENDING |
+| TC-22 | Non-numeric menu input | Enter text instead of a menu number | Invalid-input message appears; program continues | Not executed yet | PENDING |
+| TC-23 | Exit | Select `0` | Program exits safely and displays a thank-you message | `Thank you for using the system!` | PASS |
 
 ## 3. Executed End-to-End Test
 
