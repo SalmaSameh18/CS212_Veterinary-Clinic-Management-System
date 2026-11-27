@@ -17,8 +17,8 @@ struct Pet
     string medicalNote;
 
     // Default constructor for array initialization and empty Pet objects
-    Pet() : id(0), name(""), species(""), age(0), 
-    gender(""), owner(""), phone(""), medicalNote("") {}
+    Pet() : id(0), name(""), species(""), age(0),
+            gender(""), owner(""), phone(""), medicalNote("") {}
 };
 
 #endif // PET_H
