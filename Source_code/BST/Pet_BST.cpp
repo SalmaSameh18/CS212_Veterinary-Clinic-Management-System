@@ -39,6 +39,7 @@ PetBST::Node* PetBST::insertNode(Node* node, const Pet& p, bool& inserted)
     }
     else
     {
+        // Duplicate ID is ignored
         inserted = false;
     }
     return node;
@@ -85,6 +86,7 @@ PetBST::Node* PetBST::deleteNode(Node* node, int id, bool& deleted)
     {
         deleted = true;
 
+        // Case 1 & 2: Zero or one child
         if (node->left == nullptr)
         {
             Node* rightChild = node->right;
@@ -98,6 +100,7 @@ PetBST::Node* PetBST::deleteNode(Node* node, int id, bool& deleted)
             return leftChild;
         }
 
+        // Case 3: Two children -> replace with inorder successor
         Node* successor = findMin(node->right);
         node->data = successor->data;
         bool dummy = false;
@@ -181,6 +184,7 @@ bool PetBST::updatePet(int id, const Pet& updatedPet)
         return false;
     }
 
+    // Preserve ID so BST ordering remains valid
     Pet temp = updatedPet;
     temp.id = id;
     target->data = temp;
