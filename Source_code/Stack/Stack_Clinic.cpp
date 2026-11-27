@@ -1,84 +1,76 @@
+#include "VisitStack.h"
 #include <iostream>
-#include <string>
+
 using namespace std;
 
-const int MAX_PETS = 100;
+VisitStack::VisitStack()
+{
+    topIndex = -1;
+}
 
-class VisitStack {
+bool VisitStack::isEmpty() const
+{
+    return topIndex == -1;
+}
 
-private:
-    string items[MAX_PETS];
-    int topIndex;
+bool VisitStack::isFull() const
+{
+    return topIndex >= MAX_VISITS - 1;
+}
 
-public:
+int VisitStack::size() const
+{
+    return topIndex + 1;
+}
 
-    VisitStack() : topIndex(-1) {}
+bool VisitStack::push(const string& visitor)
+{
+    if (isFull())
+    {
+        return false;
+    }
+    topIndex++;
+    items[topIndex] = visitor;
+    return true;
+}
 
-    bool isEmpty() const {
-        return topIndex == -1;
+bool VisitStack::pop(string& visitor)
+{
+    if (isEmpty())
+    {
+        return false;
+    }
+    visitor = items[topIndex];
+    topIndex--;
+    return true;
+}
+
+bool VisitStack::peek(string& visitor) const
+{
+    if (isEmpty())
+    {
+        return false;
+    }
+    visitor = items[topIndex];
+    return true;
+}
+
+void VisitStack::display() const
+{
+    if (isEmpty())
+    {
+        cout << "Visit history stack is empty.\n";
+        return;
     }
 
-    bool isFull() const {
-        return topIndex == MAX_PETS - 1;
+    cout << "Visit History (Most Recent First):\n";
+    for (int i = topIndex; i >= 0; i--)
+    {
+        cout << "  - " << items[i] << "\n";
     }
+}
 
-    int size() const {
-        return topIndex + 1;
-    }
-
-    bool push(const string& visitor) {
-
-        if (isFull()) {
-            cout << "Stack is full. Cannot push " << visitor << endl;
-            return false;
-        }
-
-        items[++topIndex] = visitor;
-        return true;
-    }
-
-    bool pop(string& visitor) {
-
-        if (isEmpty()) {
-            cout << "Stack is empty. Cannot pop." << endl;
-            return false;
-        }
-
-        visitor = items[topIndex--];
-        return true;
-    }
-
-    bool peek(string& visitor) const {
-
-        if (isEmpty()) {
-            cout << "Stack is empty. Cannot peek." << endl;
-            return false;
-        }
-
-        visitor = items[topIndex];
-        return true;
-    }
-
-    void display() const {
-
-        if (isEmpty()) {
-            cout << "No completed visits yet.\n";
-            return;
-        }
-
-        cout << "Recent visits (newest first):\n";
-
-        for (int i = topIndex; i >= 0; --i) {
-            cout << " - " << items[i] << "\n";
-        }
-    }
-
-    void clear() {
-        topIndex = -1;
-    }
-
-};
-
-int main(){
-	return 0;
+void VisitStack::clear()
+{
+    topIndex = -1;
 }
