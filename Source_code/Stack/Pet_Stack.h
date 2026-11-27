@@ -2,13 +2,12 @@
 #define VISIT_STACK_H
 
 #include <string>
-#include "Constants.h"
 
-using namespace std;
-
-class VisitStack {
+class VisitStack
+{
 private:
-    string items[MAX_PETS];
+    static const int MAX_VISITS = 100;
+    std::string items[MAX_VISITS];
     int topIndex;
 
 public:
@@ -18,12 +17,12 @@ public:
     bool isFull() const;
     int size() const;
 
-    bool push(const string& visitor);
-    bool pop(string& visitor);
-    bool peek(string& visitor) const;
+    bool push(const std::string& visitor);
+    bool pop(std::string& visitor);
+    bool peek(std::string& visitor) const;
 
     void display() const;
     void clear();
 };
 
-#endif
+#endif // VISIT_STACK_H
