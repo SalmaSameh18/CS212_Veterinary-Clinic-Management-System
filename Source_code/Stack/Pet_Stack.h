@@ -1,5 +1,5 @@
-#ifndef VISIT_STACK_H
-#define VISIT_STACK_H
+#ifndef PET_STACK_H
+#define PET_STACK_H
 
 #include <string>
 
@@ -27,4 +27,4 @@ public:
     void clear();
 };
 
-#endif // VISIT_STACK_H
+#endif // PET_STACK_H
