@@ -244,13 +244,13 @@ Enter your choice:
 
 ## 8. Team Members & Responsibilities
 
-| Team Member | Responsibility |
-|---|---|
-| Malak Sherif Abdelaziz | Linked List Implementation |
-| Salma Sameh Ahmed | Binary Search Tree Implementation |
-| Dalia Mahmoud Muhyi Mohamed | Queue Implementation |
-| Nagwa Hossam Khalil | Stack Implementation |
-| Arwa Tamer Mohamed | Clinic Operations, Searching, Sorting & Validation |
+| Team Member | Team Member id | Responsibility |
+|---|---|---|
+| Malak Sherif Abdelaziz | 200076464 | Linked List Implementation |
+| Salma Sameh Ahmed | 200067927 | Binary Search Tree Implementation |
+| Dalia Mahmoud Muhyi | 200069159 |Queue Implementation |
+| Nagwa Hossam Khalil | 200068520 |Stack Implementation |
+| Arwa Tamer Mohamed | 200067685 |Clinic Operations, Searching, Sorting, Validation & int main |
 
 ---
 
