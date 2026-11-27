@@ -2,7 +2,7 @@
 #define PET_MAIN_H
 
 #include <string>
-#include "Pet.h" // Make sure Pet.h (defining class/struct Pet) is included before this file or exists in the same directory
+#include "Pet.h" // Ensures Pet struct/class is available
 
 using namespace std;
 
@@ -12,7 +12,7 @@ using namespace std;
 const int MAX_PETS = 100;
 
 // ============================================================================
-// 1. PetList (Singly Linked List for storing Pets)
+// 1. PetList (Singly Linked List for storing Pet Medical Records)
 // ============================================================================
 class PetList
 {
@@ -32,10 +32,12 @@ public:
     PetList();
     ~PetList();
 
+    // Copies current records into a caller-provided array (for sorting/searching)
     int copyToArray(Pet arr[], int capacity) const;
 
-    bool insert(Pet p);
+    bool insert(const Pet& p);
     bool deletePet(int id);
+    bool updatePet(int id, const Pet& updatedPet);
     Pet* search(int id);
 
     void display() const;
@@ -62,57 +64,29 @@ private:
     Node* root;
     int count;
 
-    // Insert a new pet recursively
+    // Recursive helper functions
     Node* insertNode(Node* node, const Pet& p, bool& inserted);
-
-    // Search recursively
     Node* searchNode(Node* node, int id) const;
-
-    // Find the smallest node in a subtree
     Node* findMin(Node* node) const;
-
-    // Delete a pet recursively
     Node* deleteNode(Node* node, int id, bool& deleted);
-
-    // Inorder: Left, Root, Right
     void inorderTraversal(Node* node) const;
-
-    // Preorder: Root, Left, Right
     void preorderTraversal(Node* node) const;
-
-    // Delete all nodes recursively
     void clearTree(Node* node);
 
 public:
-    // Constructor & Destructor
     PetBST();
     ~PetBST();
 
-    // Check if the tree is empty
     bool isEmpty() const;
-
-    // Return number of pets
     int size() const;
 
-    // Insert a pet
     bool insert(const Pet& p);
-
-    // Search for a pet
     Pet* search(int id) const;
-
-    // Delete a pet
     bool deletePet(int id);
-
-    // Update pet information without changing ID
     bool updatePet(int id, const Pet& updatedPet);
 
-    // Display pets sorted by ID
     void inorder() const;
-
-    // Display tree structure order
     void preorder() const;
-
-    // Clear the entire tree
     void clear();
 };
 
@@ -132,42 +106,26 @@ private:
     int count;
 
 public:
-    // Constructor
     PetQueue();
 
-    // Check if queue is empty
     bool isEmpty() const;
-
-    // Check if queue is full
     bool isFull() const;
-
-    // Return number of pets
     int size() const;
 
-    // Add pet according to priority
+    // Inserts item according to priority
     bool enqueue(int id, int priority = 0);
-
-    // Remove pet from front
     bool dequeue(int& id);
-
-    // Get front pet
     bool front(int& id) const;
-
-    // Get rear pet
     bool rear(int& id) const;
 
-    // Search for a pet by ID
     bool contains(int id) const;
-
-    // Remove pet by ID
     bool removeById(int id);
 
-    // Display all pets
     void display() const;
 };
 
 // ============================================================================
-// 4. VisitStack (Stack for tracking visit history)
+// 4. VisitStack (Stack for tracking recent visit history - LIFO)
 // ============================================================================
 class VisitStack
 {
@@ -201,19 +159,26 @@ private:
     PetQueue& waitingQueue;
     VisitStack& visitHistory;
 
+    // Input helper functions for safe console reading
+    int readInt(const string& prompt) const;
+    string readLine(const string& prompt) const;
+
 public:
-    // Constructor
     ClinicOperations(PetList& list, PetBST& tree,
                      PetQueue& queue, VisitStack& history);
 
     // 1. Validate Pet ID
-    bool validatePetID(int id);
+    bool validatePetID(int id) const;
 
     // 2. Validate Pet Input
-    bool validatePetInput(const Pet& p);
+    bool validatePetInput(const Pet& p) const;
 
     // 3. Register Pet For Visit
     bool registerPetForVisit();
+
+    // Update & Delete Pet Records
+    bool updatePetRecord();
+    bool deletePetRecord();
 
     // 4. Check In Pet
     bool checkInPet();
@@ -222,7 +187,14 @@ public:
     bool completeVisit();
 
     // 6. Sort Pets By Name
-    void sortPetsByName();
+    void sortPetsByName() const;
+
+    // Extra clinic helpers & menu
+    bool undoLastVisit();
+    void searchPetById() const;
+    void searchPetByName() const;
+    void displaySystemOverview() const;
+    void runMenu();
 };
 
 #endif // PET_MAIN_H
