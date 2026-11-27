@@ -1,191 +1,167 @@
+#include "PetList.h"
 #include <iostream>
-#include <string>
+
 using namespace std;
-const int MAX_PETS = 100;
 
-struct Pet {
-    int id;
-    string name;
-    string species;
-    int age;
-    string owner;
-    string phone;
-    string gender;
-    string medicalNote;
-};
-
-// LINKED LIST
-
-class PetList
+PetList::Node::Node(const Pet& p)
 {
-private:
-
-    struct Node
-    {
-        Pet data;
-        Node* next;
-
-        Node(const Pet& p)
-        {
-            data = p;
-            next = nullptr;
-        }
-    };
-
-    Node* head;
-    int count;
-
-public:
-
-    PetList()
-    {
-        head = nullptr;
-        count = 0;
-    }
-
- ~PetList()
-    {
-        Node* current = head;
-
-        while (current != nullptr)
-        {
-            Node* temp = current;
-            current = current->next;
-            delete temp;
-        }
-    }
-
-int copyToArray(Pet arr[], int capacity) const
-{
-    int i = 0;
-    Node* current = head;
-
-    while (current != nullptr && i < capacity)
-    {
-        arr[i] = current->data;
-        current = current->next;
-        i++;
-    }
-
-    return i;
+    data = p;
+    next = nullptr;
 }
 
-bool insert(Pet p)
+PetList::PetList()
+{
+    head = nullptr;
+    count = 0;
+}
+
+PetList::~PetList()
+{
+    Node* curr = head;
+    while (curr != nullptr)
     {
-        if (search(p.id) != nullptr)
-        {
-            return false;
-        }
+        Node* nextNode = curr->next;
+        delete curr;
+        curr = nextNode;
+    }
+    head = nullptr;
+    count = 0;
+}
 
-        Node* newNode = new Node(p);
+int PetList::copyToArray(Pet arr[], int capacity) const
+{
+    int copied = 0;
+    Node* curr = head;
+    while (curr != nullptr && copied < capacity)
+    {
+        arr[copied] = curr->data;
+        copied++;
+        curr = curr->next;
+    }
+    return copied;
+}
 
-        if (head == nullptr)
-        {
-            head = newNode;
-        }
-        else
-        {
-            Node* current = head;
-
-            while (current->next != nullptr)
-            {
-                current = current->next;
-            }
-
-            current->next = newNode;
-        }
-
-        count++;
-        return true;
+bool PetList::insert(const Pet& p)
+{
+    if (count >= MAX_LIST_SIZE)
+    {
+        return false; // Capacity limit reached
+    }
+    if (search(p.id) != nullptr)
+    {
+        return false; // Duplicate ID not allowed
     }
 
-   
-    bool deletePet(int id)
+    Node* newNode = new Node(p);
+    if (head == nullptr)
     {
-        Node* current = head;
-        Node* previous = nullptr;
-
-        while (current != nullptr && current->data.id != id)
+        head = newNode;
+    }
+    else
+    {
+        Node* temp = head;
+        while (temp->next != nullptr)
         {
-            previous = current;
-            current = current->next;
+            temp = temp->next;
         }
-
-        if (current == nullptr)
-        {
-            return false;
-        }
-
-        if (previous == nullptr)
-        {
-            head = current->next;
-        }
-        else
-        {
-            previous->next = current->next;
-        }
-
-        delete current;
-        count--;
-
-        return true;
+        temp->next = newNode;
     }
 
-    Pet* search(int id)
-    {
-        Node* current = head;
+    count++;
+    return true;
+}
 
-        while (current != nullptr)
+bool PetList::deletePet(int id)
+{
+    if (head == nullptr)
+    {
+        return false;
+    }
+
+    Node* curr = head;
+    Node* prev = nullptr;
+
+    while (curr != nullptr && curr->data.id != id)
+    {
+        prev = curr;
+        curr = curr->next;
+    }
+
+    if (curr == nullptr)
+    {
+        return false; // Not found
+    }
+
+    if (prev == nullptr)
+    {
+        head = curr->next;
+    }
+    else
+    {
+        prev->next = curr->next;
+    }
+
+    delete curr;
+    count--;
+    return true;
+}
+
+bool PetList::updatePet(int id, const Pet& updatedPet)
+{
+    Pet* target = search(id);
+    if (target == nullptr)
+    {
+        return false;
+    }
+
+    // Keep the original ID consistent
+    Pet temp = updatedPet;
+    temp.id = id;
+    *target = temp;
+    return true;
+}
+
+Pet* PetList::search(int id)
+{
+    Node* curr = head;
+    while (curr != nullptr)
+    {
+        if (curr->data.id == id)
         {
-            if (current->data.id == id)
-            {
-                return &current->data;
-            }
-
-            current = current->next;
+            return &(curr->data);
         }
-
-        return nullptr;
+        curr = curr->next;
     }
+    return nullptr;
+}
 
-    void display() const
+void PetList::display() const
+{
+    if (isEmpty())
     {
-        if (isEmpty())
-        {
-            cout << "No pet records found.\n";
-            return;
-        }
-
-        const Node* current = head;
-
-        while (current != nullptr)
-        {
-            cout << "ID: " << current->data.id << endl;
-            cout << "Name: " << current->data.name << endl;
-            cout << "Species: " << current->data.species << endl;
-            cout << "Age: " << current->data.age << endl;
-            cout << "Gender: " << current->data.gender << endl;
-            cout << "Owner: " << current->data.owner << endl;
-            cout << "Phone: " << current->data.phone << endl;
-            cout << "Medical Note: " << current->data.medicalNote << endl;
-
-            cout << "-------------------------\n";
-
-            current = current->next;
-        }
+        cout << "No pet records in the linked list.\n";
+        return;
     }
 
-    bool isEmpty() const
+    Node* curr = head;
+    int idx = 1;
+    while (curr != nullptr)
     {
-        return head == nullptr;
+        cout << idx++ << ". [ID: " << curr->data.id << "] "
+             << curr->data.name << " | Species: " << curr->data.species
+             << " | Age: " << curr->data.age << " | Gender: " << curr->data.gender << "\n"
+             << "   Owner: " << curr->data.owner << " (" << curr->data.phone << ")\n"
+             << "   Note: " << curr->data.medicalNote << "\n";
+        curr = curr->next;
     }
+}
 
-    int size() const
-    {
-        return count;
-    }
-};
+bool PetList::isEmpty() const
+{
+    return head == nullptr;
+}
 
-int main(){
-    return 0;
+int PetList::size() const
+{
+    return count;
 }
