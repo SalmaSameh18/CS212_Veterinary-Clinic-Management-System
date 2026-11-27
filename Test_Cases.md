@@ -30,7 +30,7 @@ The submitted source was successfully compiled with `g++ -std=c++11`.
   ----------- ------------- ------------- -------------------------------- ---------------------------------------- -----------
   TC-01       Register pet  Register ID   Pet is added to the Linked List  Pet registered successfully!             PASS
                             `1`, Name and BST; success message appears                                          
-                            `Joy`,                                                                                  
+                            Name `Joy` successfully  ,                                                                                  
                             Species `Dog`,
                             Age  `1`,
                             Owner  `Jake`, 
@@ -41,21 +41,20 @@ The submitted source was successfully compiled with `g++ -std=c++11`.
                             details                                                                                 
 
   TC-02       Register      Register ID   Second pet is registered         Pet registered successfully!             PASS
-              another pet   `2`, Name     successfully                                                              
-                            `Kati`,                                                                                 
+              another pet   `2`, Name `Kati`   successfully,                                                                                                                                             
                             Species `Cat`, 
                             Age `2`,
-                            Owner `Lina`
-                            , and                                                                             
+                            Owner `Lina`,
+                            and                                                                             
                             valid                                                                                   
                             remaining                                                                               
                             details                                                                                 
 
   TC-03       Register      Register ID   Third pet is registered          Pet registered successfully!             PASS
               third pet     `3`, 
-                            Name `Meme`,                                  successfully                                             
-                            Species `Dog`
-                            , Age `2`,
+                            Name `Meme`  successfully,                                             
+                            Species `Dog`,
+                            Age `2`,
                             Owner  `Jessy`,
                             and                                                                            
                             valid                                                                                   
