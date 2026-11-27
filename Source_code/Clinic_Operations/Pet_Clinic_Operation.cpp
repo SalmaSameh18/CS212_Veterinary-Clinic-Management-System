@@ -231,6 +231,7 @@ bool ClinicOperations::completeVisit()
     string newNote = readLine("Enter visit treatment note: ");
     pet->medicalNote = newNote;
     petList.updatePet(nextId, *pet);
+    petTree.updatePet(nextId, *pet);
 
     string logEntry = "Pet #" + to_string(pet->id) + " (" + pet->name + ") - " + newNote;
     visitHistory.push(logEntry);
