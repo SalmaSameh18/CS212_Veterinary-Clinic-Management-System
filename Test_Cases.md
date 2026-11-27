@@ -26,13 +26,13 @@ g++ main.cpp -std=c++11 -o clinic
 
   * Linux/macOS: `./clinic`
 
-The submitted source was successfully compiled with `g++ -std=c++11`.
+The submitted source was successfully compiled with `g++ -std=c++11 Source_code/Main/Pet_main.cpp -o clinic`.
 
 ## 2. Test Cases
 
 | Test ID | Feature | Test input / action | Expected result | Actual result | Status | 
 | ----- | ----- | ----- | ----- | ----- | ----- | 
-| TC-01 | Register first pet | Register ID `100`, Name `Joy`, Species `Dog`, Age `1.5`, Owner `Karma`, Phone `01020078341`, Gender `Male`, Medical Note `Requires regular checkups` | Pet is added to the Linked List and BST; success message appears | `Pet registered successfully!` | PASS | 
+| TC-01 | Register first pet | Register ID `100`, Name `Joy`, Species `Dog`, Age `1`, Owner `Karma`, Phone `01020078341`, Gender `Male`, Medical Note `Requires regular checkups` | Pet is added to the Linked List and BST; success message appears | `Pet registered successfully!` | PASS | 
 | TC-02 | Register second pet | Register ID `101`, Name `Kati`, Species `Cat`, Age `2`, Owner `Lina`, Phone `01095643764`, Gender `Female`, Medical Note `Recovering from a minor infection` | Second pet is registered successfully | `Pet registered successfully!` | PASS | 
 | TC-03 | Register additional pets | Register ID `102` (`Meme`), ID `103` (`Lolo`), ID `104` (`Mohsen`), and ID `105` (`Losi`) with valid details | All remaining pets are registered successfully | `Pet registered successfully!` appeared for all four pets | PASS | 
 | TC-04 | Search existing pet | Select `2`, enter ID `102` | The pet's stored information is displayed | `Pet Found!` displayed with `ID: 102`, `Name: Meme`, `Species: Dog`, `Age: 2`, `Owner: Jessy` | PASS | 
