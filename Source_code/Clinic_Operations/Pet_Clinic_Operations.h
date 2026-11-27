@@ -1,12 +1,12 @@
-#ifndef CLINIC_OPERATIONS_H
-#define CLINIC_OPERATIONS_H
+#ifndef PET_CLINIC_OPERATIONS_H
+#define PET_CLINIC_OPERATIONS_H
 
 #include <string>
-#include "Pet.h"
-#include "PetList.h"
-#include "PetBST.h"
-#include "PetQueue.h"
-#include "VisitStack.h"
+#include "../Main/Pet.h"
+#include "../Linked_List/Pet_List.h"
+#include "../BST/pet_BST.h"
+#include "../Queue/Pet_Queue.h"
+#include "../Stack/Pet_Stack.h"
 
 using namespace std;
 
@@ -58,4 +58,4 @@ public:
     void runMenu();
 };
 
-#endif // CLINIC_OPERATIONS_H
+#endif // PET_CLINIC_OPERATIONS_H
