@@ -1,446 +1,391 @@
+#include "ClinicOperations.h"
 #include <iostream>
-#include <string>
+#include <limits>
+
 using namespace std;
 
-const int MAX_PETS = 100;
-
-class ClinicOperations
+ClinicOperations::ClinicOperations(PetList& list, PetBST& tree,
+                                   PetQueue& queue, VisitStack& history)
+    : petList(list), petTree(tree), waitingQueue(queue), visitHistory(history)
 {
-private:
-
-    PetList& petList;
-    PetBST& petTree;
-    PetQueue& waitingQueue;
-    VisitStack& visitHistory;
-
-public:
-
-    // Constructor
-    ClinicOperations(PetList& list, PetBST& tree,
-        PetQueue& queue, VisitStack& history)
-        : petList(list),
-        petTree(tree),
-        waitingQueue(queue),
-        visitHistory(history)
-    {
-    }
-
-    // 1. Validate Pet ID
-    bool validatePetID(int id)
-    {
-        if (id <= 0)
-        {
-            cout << "Invalid ID. ID must be positive.\n";
-            return false;
-        }
-
-        if (petList.search(id) != nullptr ||
-            petTree.search(id) != nullptr)
-        {
-            cout << "Pet ID already exists.\n";
-            return false;
-        }
-
-        return true;
-    }
-
-    // 2. Validate Pet Input
-    bool validatePetInput(const Pet& p)
-    {
-        if (p.name.empty())
-        {
-            cout << "Pet name cannot be empty.\n";
-            return false;
-        }
-
-        if (p.species.empty())
-        {
-            cout << "Pet species cannot be empty.\n";
-            return false;
-        }
-
-        if (p.age < 0)
-        {
-            cout << "Invalid age.\n";
-            return false;
-        }
-
-        if (p.owner.empty())
-        {
-            cout << "Owner name cannot be empty.\n";
-            return false;
-        }
-
-        return true;
-    }
-
-    // 3. Register Pet For Visit
-    bool registerPetForVisit()
-    {
-        Pet p;
-
-        cout << "\nEnter Pet ID: ";
-
-        if (!(cin >> p.id))
-        {
-            cout << "Invalid ID input.\n";
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            return false;
-        }
-
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-        if (!validatePetID(p.id))
-        {
-            return false;
-        }
-
-        cout << "Enter Pet Name: ";
-        getline(cin, p.name);
-
-        cout << "Enter Species: ";
-        getline(cin, p.species);
-
-        cout << "Enter Age: ";
-
-        if (!(cin >> p.age))
-        {
-            cout << "Invalid age input.\n";
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            return false;
-        }
-
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-        cout << "Enter Owner Name: ";
-        getline(cin, p.owner);
-
-        cout << "Enter Phone: ";
-        getline(cin, p.phone);
-
-        cout << "Enter Gender: ";
-        getline(cin, p.gender);
-
-        cout << "Enter Medical Note: ";
-        getline(cin, p.medicalNote);
-
-        if (!validatePetInput(p))
-        {
-            return false;
-        }
-
-        if (!petList.insert(p))
-        {
-            cout << "Failed to register pet in Linked List.\n";
-            return false;
-        }
-
-        if (!petTree.insert(p))
-        {
-            petList.deletePet(p.id);
-
-            cout << "Failed to register pet in BST.\n";
-            return false;
-        }
-
-        cout << "\nPet registered successfully!\n";
-
-        return true;
-    }
-
-    // 4. Check In Pet
-    bool checkInPet()
-    {
-        int id;
-
-        cout << "\nEnter Pet ID: ";
-
-        if (!(cin >> id))
-        {
-            cout << "Invalid ID input.\n";
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            return false;
-        }
-
-        if (id <= 0)
-        {
-            cout << "Invalid Pet ID.\n";
-            return false;
-        }
-
-        Pet* pet = petTree.search(id);
-
-        if (pet == nullptr || petList.search(id) == nullptr)
-        {
-            cout << "Pet not found.\n";
-            return false;
-        }
-
-        if (waitingQueue.contains(id))
-        {
-            cout << "Pet is already in the waiting queue.\n";
-            return false;
-        }
-
-        if (!waitingQueue.enqueue(id))
-        {
-            cout << "Waiting queue is full.\n";
-            return false;
-        }
-
-        cout << "Pet checked in successfully!\n";
-
-        return true;
-    }
-
-    // 5. Complete Visit
-    bool completeVisit()
-    {
-        int id;
-
-        if (waitingQueue.isEmpty())
-        {
-            cout << "No pets waiting for a visit.\n";
-            return false;
-        }
-
-        if (visitHistory.isFull())
-        {
-            cout << "Visit history stack is full.\n";
-            return false;
-        }
-
-        if (!waitingQueue.front(id))
-        {
-            return false;
-        }
-
-        Pet* pet = petTree.search(id);
-
-        if (pet == nullptr)
-        {
-            cout << "Pet record not found.\n";
-            return false;
-        }
-
-        string visitRecord =
-            "ID: " + to_string(pet->id) +
-            " | Name: " + pet->name;
-
-        int removedID;
-
-        if (!waitingQueue.dequeue(removedID))
-        {
-            cout << "Failed to remove pet from queue.\n";
-            return false;
-        }
-
-        if (!visitHistory.push(visitRecord))
-        {
-            cout << "Failed to save visit history.\n";
-            return false;
-        }
-
-        cout << "\nVisit completed successfully!\n";
-        cout << "Pet Name: " << pet->name << endl;
-        cout << "Pet ID: " << id << endl;
-
-        return true;
-    }
-
-    // 6. Sort Pets By Name
-    void sortPetsByName()
-    {
-        Pet pets[MAX_PETS];
-
-        int count = petList.copyToArray(pets, MAX_PETS);
-
-        if (count == 0)
-        {
-            cout << "No pet records found.\n";
-            return;
-        }
-
-        // Bubble Sort
-        for (int i = 0; i < count - 1; i++)
-        {
-            for (int j = 0; j < count - i - 1; j++)
-            {
-                if (pets[j].name > pets[j + 1].name)
-                {
-                    Pet temp = pets[j];
-                    pets[j] = pets[j + 1];
-                    pets[j + 1] = temp;
-                }
-            }
-        }
-
-        cout << "\nPets Sorted By Name:\n";
-
-        for (int i = 0; i < count; i++)
-        {
-            cout << "ID: " << pets[i].id
-                << " | Name: " << pets[i].name << endl;
-        }
-    }
-
-};
-
-
-void displayMenu()
-{
-    cout << "\n";
-    cout << "====================================\n";
-    cout << "       VETERINARY CLINIC SYSTEM     \n";
-    cout << "====================================\n";
-
-    cout << "1. Register New Pet\n";
-    cout << "2. Search Pet By ID\n";
-    cout << "3. Delete Pet\n";
-    cout << "4. Display All Pets\n";
-    cout << "5. Check In Pet\n";
-    cout << "6. Complete Visit\n";
-    cout << "7. Display Recent Visit History\n";
-    cout << "8. Sort Pets By Name\n";
-    cout << "0. Exit\n";
-
-    cout << "====================================\n";
-    cout << "Enter your choice: ";
 }
 
-
-
-int main()
+int ClinicOperations::readInt(const string& prompt) const
 {
-    PetList petList;
-    PetBST petTree;
-    PetQueue waitingQueue;
-    VisitStack visitHistory;
-
-    ClinicOperations clinic(
-        petList,
-        petTree,
-        waitingQueue,
-        visitHistory
-    );
-
-    int choice;
-
+    int value;
     while (true)
     {
-        displayMenu();
-
-        if (!(cin >> choice))
+        cout << prompt;
+        if (cin >> value)
         {
-            cout << "Invalid input. Please enter a number.\n";
-
-            cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-            continue;
+            return value;
         }
+        cout << "Invalid input. Please enter a valid integer.\n";
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    }
+}
+
+string ClinicOperations::readLine(const string& prompt) const
+{
+    string line;
+    cout << prompt;
+    getline(cin, line);
+    return line;
+}
+
+bool ClinicOperations::validatePetID(int id) const
+{
+    return id > 0;
+}
+
+bool ClinicOperations::validatePetInput(const Pet& p) const
+{
+    if (!validatePetID(p.id))
+    {
+        cout << "Error: Pet ID must be a positive number.\n";
+        return false;
+    }
+    if (p.name.empty() || p.species.empty() || p.owner.empty())
+    {
+        cout << "Error: Pet name, species, and owner name cannot be empty.\n";
+        return false;
+    }
+    if (p.age < 0)
+    {
+        cout << "Error: Pet age cannot be negative.\n";
+        return false;
+    }
+    return true;
+}
+
+bool ClinicOperations::registerPetForVisit()
+{
+    int id = readInt("Enter Pet ID: ");
+    if (!validatePetID(id))
+    {
+        cout << "Error: ID must be greater than 0.\n";
+        return false;
+    }
+
+    if (petTree.search(id) != nullptr || petList.search(id) != nullptr)
+    {
+        cout << "Error: A pet with ID " << id << " already exists.\n";
+        return false;
+    }
+
+    Pet p;
+    p.id = id;
+    p.name = readLine("Enter Pet Name: ");
+    p.species = readLine("Enter Species (e.g., Cat, Dog): ");
+    p.age = readInt("Enter Age (years): ");
+    p.gender = readLine("Enter Gender: ");
+    p.owner = readLine("Enter Owner Name: ");
+    p.phone = readLine("Enter Owner Phone: ");
+    p.medicalNote = readLine("Enter Initial Medical Note: ");
+
+    if (!validatePetInput(p))
+    {
+        return false;
+    }
+
+    if (!petList.insert(p))
+    {
+        cout << "Error: Could not insert into linked list (may be full).\n";
+        return false;
+    }
+
+    Pet* storedPet = petList.search(id);
+    if (storedPet != nullptr)
+    {
+        petTree.insert(*storedPet);
+    }
+
+    cout << "Pet \"" << p.name << "\" (ID: " << p.id << ") registered successfully.\n";
+    return true;
+}
+
+bool ClinicOperations::updatePetRecord()
+{
+    int id = readInt("Enter Pet ID to update: ");
+    if (!validatePetID(id))
+    {
+        cout << "Error: ID must be greater than 0.\n";
+        return false;
+    }
+
+    Pet* existing = petTree.search(id);
+    if (existing == nullptr)
+    {
+        cout << "Error: Pet with ID " << id << " was not found.\n";
+        return false;
+    }
+
+    Pet updated;
+    updated.id = id;
+    updated.name = readLine("Enter New Pet Name: ");
+    updated.species = readLine("Enter New Species: ");
+    updated.age = readInt("Enter New Age (years): ");
+    updated.gender = readLine("Enter New Gender: ");
+    updated.owner = readLine("Enter New Owner Name: ");
+    updated.phone = readLine("Enter New Owner Phone: ");
+    updated.medicalNote = readLine("Enter New Medical Note: ");
+
+    if (!validatePetInput(updated))
+    {
+        return false;
+    }
+
+    bool listUpdated = petList.updatePet(id, updated);
+    bool treeUpdated = petTree.updatePet(id, updated);
+
+    if (listUpdated && treeUpdated)
+    {
+        cout << "Pet ID " << id << " updated in both Linked List and BST.\n";
+        return true;
+    }
+
+    cout << "Warning: Partial or failed update across data structures.\n";
+    return false;
+}
+
+bool ClinicOperations::deletePetRecord()
+{
+    int id = readInt("Enter Pet ID to delete: ");
+    if (!validatePetID(id))
+    {
+        cout << "Error: ID must be greater than 0.\n";
+        return false;
+    }
+
+    if (petTree.search(id) == nullptr && petList.search(id) == nullptr)
+    {
+        cout << "Error: Pet with ID " << id << " was not found.\n";
+        return false;
+    }
+
+    bool removedFromQueue = waitingQueue.removeById(id);
+    bool removedFromTree = petTree.deletePet(id);
+    bool removedFromList = petList.deletePet(id);
+
+    if (removedFromList || removedFromTree)
+    {
+        cout << "Pet ID " << id << " deleted from records";
+        if (removedFromQueue)
+        {
+            cout << " and removed from waiting queue";
+        }
+        cout << ".\n";
+        return true;
+    }
+
+    cout << "Error: Could not delete Pet ID " << id << ".\n";
+    return false;
+}
+
+bool ClinicOperations::checkInPet()
+{
+    int id = readInt("Enter registered Pet ID to check into waiting queue: ");
+    Pet* pet = petTree.search(id);
+    if (pet == nullptr)
+    {
+        cout << "Error: Pet ID " << id << " not found. Register the pet first.\n";
+        return false;
+    }
+
+    if (waitingQueue.contains(id))
+    {
+        cout << "Notice: Pet ID " << id << " is already in the waiting queue.\n";
+        return false;
+    }
+
+    int priority = readInt("Enter priority level (0 = normal, 1 = urgent, 2 = emergency): ");
+    if (!waitingQueue.enqueue(id, priority))
+    {
+        cout << "Error: Waiting queue is full.\n";
+        return false;
+    }
+
+    cout << "Checked in " << pet->name << " (ID: " << id << ") with priority " << priority << ".\n";
+    return true;
+}
+
+bool ClinicOperations::completeVisit()
+{
+    int nextId;
+    if (!waitingQueue.dequeue(nextId))
+    {
+        cout << "No pets currently waiting in the queue.\n";
+        return false;
+    }
+
+    Pet* pet = petTree.search(nextId);
+    if (pet == nullptr)
+    {
+        cout << "Warning: Dequeued Pet ID " << nextId << " was not found in records.\n";
+        return false;
+    }
+
+    cout << "Treating Pet: " << pet->name << " (ID: " << pet->id << ", Owner: " << pet->owner << ")\n";
+    string newNote = readLine("Enter visit treatment note: ");
+    pet->medicalNote = newNote;
+    petList.updatePet(nextId, *pet);
+
+    string logEntry = "Pet #" + to_string(pet->id) + " (" + pet->name + ") - " + newNote;
+    visitHistory.push(logEntry);
+
+    cout << "Visit completed, medical note updated, and visit logged to stack.\n";
+    return true;
+}
+
+bool ClinicOperations::undoLastVisit()
+{
+    string lastVisit;
+    if (!visitHistory.pop(lastVisit))
+    {
+        cout << "Visit history stack is empty. Nothing to undo/pop.\n";
+        return false;
+    }
+    cout << "Popped latest visit log: " << lastVisit << "\n";
+    return true;
+}
+
+// Why: BST search is chosen for ID lookup because Pet ID is a unique key,
+// giving O(log n) average lookup time (O(n) worst case if skewed) instead of
+// scanning all records sequentially.
+void ClinicOperations::searchPetById() const
+{
+    int id = readInt("Enter Pet ID to search (BST): ");
+    Pet* found = petTree.search(id);
+    if (found == nullptr)
+    {
+        cout << "No pet found with ID " << id << ".\n";
+        return;
+    }
+
+    cout << "Found -> ID: " << found->id
+         << " | Name: " << found->name
+         << " | Species: " << found->species
+         << " | Age: " << found->age
+         << " | Owner: " << found->owner
+         << " | Note: " << found->medicalNote << "\n";
+}
+
+// Why: Linear search is chosen for name lookup because pet names are not
+// unique and are not used as the BST key, so multiple pets can share a name
+// and we must inspect all matching records in O(n) time without requiring pre-sorting.
+void ClinicOperations::searchPetByName() const
+{
+    string target = readLine("Enter Pet Name to search (Linear Search): ");
+    Pet tempArr[MAX_CLINIC_PETS];
+    int n = petList.copyToArray(tempArr, MAX_CLINIC_PETS);
+
+    int matches = 0;
+    for (int i = 0; i < n; i++)
+    {
+        if (tempArr[i].name == target)
+        {
+            cout << "Match -> ID: " << tempArr[i].id
+                 << " | Name: " << tempArr[i].name
+                 << " | Age: " << tempArr[i].age
+                 << " | Owner: " << tempArr[i].owner << "\n";
+            matches++;
+        }
+    }
+
+    if (matches == 0)
+    {
+        cout << "No pet found with name \"" << target << "\".\n";
+    }
+}
+
+// Why: Insertion sort is chosen for sorting pets by name because the clinic
+// dataset is relatively small (up to MAX_CLINIC_PETS = 100), it is simple to implement
+// and trace in class, works well on small/nearly-sorted lists in-place on the
+// copied array, and preserves relative order (stable sort) for equal names.
+void ClinicOperations::sortPetsByName() const
+{
+    Pet arr[MAX_CLINIC_PETS];
+    int n = petList.copyToArray(arr, MAX_CLINIC_PETS);
+    if (n == 0)
+    {
+        cout << "No records to sort.\n";
+        return;
+    }
+
+    for (int i = 1; i < n; i++)
+    {
+        Pet key = arr[i];
+        int j = i - 1;
+        while (j >= 0 && arr[j].name > key.name)
+        {
+            arr[j + 1] = arr[j];
+            j--;
+        }
+        arr[j + 1] = key;
+    }
+
+    cout << "Pets Sorted by Name (Insertion Sort):\n";
+    for (int i = 0; i < n; i++)
+    {
+        cout << (i + 1) << ". " << arr[i].name << " (ID: " << arr[i].id
+             << ", Age: " << arr[i].age << ")\n";
+    }
+}
+
+void ClinicOperations::displaySystemOverview() const
+{
+    cout << "\n--- Clinic System Overview ---\n";
+    cout << "Linked List Size: " << petList.size() << "\n";
+    cout << "BST Size: " << petTree.size() << "\n";
+    cout << "Waiting Queue Size: " << waitingQueue.size() << "\n";
+    cout << "Visit Stack Size: " << visitHistory.size() << "\n\n";
+
+    petList.display();
+    cout << "\nBST Inorder: ";
+    petTree.inorder();
+    cout << "BST Preorder: ";
+    petTree.preorder();
+    cout << "\n";
+    waitingQueue.display();
+    visitHistory.display();
+}
+
+void ClinicOperations::runMenu()
+{
+    int choice = -1;
+    while (choice != 0)
+    {
+        cout << "\n========== VETERINARY CLINIC MENU ==========\n";
+        cout << "1. Register New Pet\n";
+        cout << "2. Check In Pet to Waiting Queue (Priority)\n";
+        cout << "3. Complete Next Visit (Queue -> Update Record -> Stack)\n";
+        cout << "4. Undo / Pop Last Visit Log (Stack)\n";
+        cout << "5. Search Pet by ID (BST)\n";
+        cout << "6. Search Pet by Name (Linear Search)\n";
+        cout << "7. Sort & Display Pets by Name (Insertion Sort)\n";
+        cout << "8. Update Pet Record\n";
+        cout << "9. Delete Pet Record\n";
+        cout << "10. Display Full System Overview\n";
+        cout << "0. Exit\n";
+
+        choice = readInt("Choose an option: ");
 
         switch (choice)
         {
-        case 1:
-            clinic.registerPetForVisit();
-            break;
-
-        case 2:
-        {
-            int id;
-
-            cout << "Enter Pet ID: ";
-
-            if (!(cin >> id))
-            {
-                cout << "Invalid ID.\n";
-                cin.clear();
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                break;
-            }
-
-            Pet* pet = petTree.search(id);
-
-            if (pet != nullptr)
-            {
-                cout << "\nPet Found!\n";
-                cout << "ID: " << pet->id << endl;
-                cout << "Name: " << pet->name << endl;
-                cout << "Species: " << pet->species << endl;
-                cout << "Age: " << pet->age << endl;
-                cout << "Owner: " << pet->owner << endl;
-            }
-            else
-            {
-                cout << "Pet not found.\n";
-            }
-
-            break;
+            case 1: registerPetForVisit(); break;
+            case 2: checkInPet(); break;
+            case 3: completeVisit(); break;
+            case 4: undoLastVisit(); break;
+            case 5: searchPetById(); break;
+            case 6: searchPetByName(); break;
+            case 7: sortPetsByName(); break;
+            case 8: updatePetRecord(); break;
+            case 9: deletePetRecord(); break;
+            case 10: displaySystemOverview(); break;
+            case 0: cout << "Exiting system. Goodbye!\n"; break;
+            default: cout << "Invalid menu option. Try again.\n"; break;
         }
-
-        case 3:
-        {
-            int id;
-
-            cout << "Enter Pet ID: ";
-
-            if (!(cin >> id))
-            {
-                cout << "Invalid ID.\n";
-                cin.clear();
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                break;
-            }
-
-            if (petTree.search(id) != nullptr)
-            {
-                petList.deletePet(id);
-                petTree.deletePet(id);
-
-                cout << "Pet deleted successfully.\n";
-            }
-            else
-            {
-                cout << "Pet not found.\n";
-            }
-
-            break;
-        }
-
-        case 4:
-            petList.display();
-            break;
-
-        case 5:
-            clinic.checkInPet();
-            break;
-
-        case 6:
-            clinic.completeVisit();
-            break;
-
-        case 7:
-            visitHistory.display();
-            break;
-
-        case 8:
-            clinic.sortPetsByName();
-            break;
-
-        case 0:
-            cout << "\nThank you for using the system!\n";
-            return 0;
-
-        default:
-            cout << "Invalid choice. Please try again.\n";
-        }
-
-        cout << "\n";
     }
-
-    return 0;
 }
