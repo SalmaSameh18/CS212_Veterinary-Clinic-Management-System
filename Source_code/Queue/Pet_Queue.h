@@ -1,56 +1,39 @@
+#ifndef PET_QUEUE_H
+#define PET_QUEUE_H
 
-#ifndef PETQUEUE_H
-#define PETQUEUE_H
+using namespace std;
 
-const int MAX_PETS = 100;
-
-class PetQueue {
-
+class PetQueue
+{
 private:
+    static const int MAX_QUEUE_SIZE = 100;
 
-    struct Pet {
+    struct QueueItem
+    {
         int id;
         int priority;
     };
 
-    Pet items[MAX_PETS];
+    QueueItem items[MAX_QUEUE_SIZE];
     int count;
 
 public:
-
-    // Constructor
     PetQueue();
 
-    // Check if queue is empty
     bool isEmpty() const;
-
-    // Check if queue is full
     bool isFull() const;
-
-    // Return number of pets
     int size() const;
 
-    // Add pet according to priority
+    // Inserts item according to priority (higher priority value first; ties stay FIFO)
     bool enqueue(int id, int priority = 0);
-
-    // Remove pet from front
     bool dequeue(int& id);
-
-    // Get front pet
     bool front(int& id) const;
-
-    // Get rear pet
     bool rear(int& id) const;
 
-    // Search for a pet by ID
     bool contains(int id) const;
-
-    // Remove pet by ID
     bool removeById(int id);
 
-    // Display all pets
     void display() const;
+};
 
-}; // End of class
-
-#endif
+#endif // PET_QUEUE_H
