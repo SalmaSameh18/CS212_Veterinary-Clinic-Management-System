@@ -3,6 +3,8 @@
 
 #include "Pet.h"
 
+using namespace std;
+
 class PetBST
 {
 private:
@@ -18,6 +20,7 @@ private:
     Node* root;
     int count;
 
+    // Recursive helper functions
     Node* insertNode(Node* node, const Pet& p, bool& inserted);
     Node* searchNode(Node* node, int id) const;
     Node* findMin(Node* node) const;
