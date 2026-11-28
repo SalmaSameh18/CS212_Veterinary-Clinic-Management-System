@@ -44,7 +44,7 @@ CS212_Veterinary_Clinic/
 │   └── pet_main.cpp
 ├── Report.pdf
 ├── Screenshots/
-└── Tests/
+└── Test_Cases.md
 ```
 
 ### Source Files Breakdown
