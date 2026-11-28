@@ -42,8 +42,7 @@ CS212_Veterinary_Clinic/
 │   ├── Pet_Clinic_Operation.cpp
 │   ├── pet_main.h
 │   └── pet_main.cpp
-├── Report/
-│   └── project_report.pdf
+├── Report.pdf
 ├── Screenshots/
 └── Tests/
 ```
